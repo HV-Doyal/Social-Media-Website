@@ -5,6 +5,7 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const app = express();
 
+//Details for database connection
 const password = "sJGmRWlzEelHY889";
 const userName = "hvd";
 const server = "cst2120cw2.0hms7ov.mongodb.net";
@@ -25,6 +26,7 @@ const client = new MongoClient(connectionURI, {
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
+//Function to Connect to Database
 async function connectDB() {
     try {
         await client.connect();
