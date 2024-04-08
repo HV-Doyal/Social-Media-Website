@@ -81,7 +81,7 @@ function loadSignupPage() {
         event.preventDefault(); // Prevent default form submission behavior
 
         // Get user input values
-        const name = document.getElementById('nameInput').value;
+         name = document.getElementById('nameInput').value;
         const email = document.getElementById('emailInput').value;
         const password = document.getElementById('passwordInput').value;
 
@@ -116,7 +116,7 @@ function loadSignupPage() {
             // Check if the request was successful
             if (response.ok) {
                 console.log('User registered successfully!');
-                // Redirect or show a success message as needed
+                loadFeedPage();
             } else {
                 const errorData = await response.json();
                 console.error('Error:', errorData.error);
@@ -192,10 +192,7 @@ function loadFeedPage() {
                                 <img src="./assets/profile-1.jpg">
                             </div>
                             <div class="handle">
-                                <h4>Harsh Doyal</h4>
-                                <p class="text-muted">
-                                    @HVD
-                                </p>
+                                <h4>${name}</h4>
                             </div>
                         </a>
                         <div class="sidebar">
