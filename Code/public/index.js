@@ -12,9 +12,7 @@ function navigateTo(hash) {
             loadSignupPage();
             break;
         case "#/home":
-            loadFeedPageLeft();
-            loadFeedPageMiddle();
-            loadFeedPageRight();
+            loadFeedPage();
             break;
         case "#/profile":
             loadProfilePage();
@@ -32,15 +30,6 @@ function renderHeader() {
                     <h2 class="logo">
                         MnK Hub
                     </h2>
-                    <div class="search-bar">
-                        <i class="uil uil-search"></i>
-                        <input type="search" placeholder="Search people or posts">
-                    </div>
-                    <div class="create">
-                        <div class="profile-picture">
-                            <img src="./assets/social%20logo.png">
-                        </div>
-                    </div>
                 </div>
             </nav>
         </header>`;
@@ -54,15 +43,7 @@ function renderFooter() {
 
 function loadPageContent(content) {
     const app = document.getElementById("app");
-    const header = renderHeader();
-    const footer = renderFooter();
-    const contentWrapper = `<div id="content" class="container">${content}</div>`;
-    app.innerHTML = header + contentWrapper + footer;
-}
-
-function loadHomePage() {
-    const homeContent = `<div class="text-center my-4"><h2>Welcome!!!</h2></div>`;
-    loadPageContent(homeContent);
+    app.innerHTML = renderHeader() + content + renderFooter();
 }
 
 function loadSignupPage() {
@@ -116,209 +97,165 @@ function loadLoginPage() {
     loadPageContent(loginContent);
 }
 
-function loadFeedPageLeft() {
-    const feedContent = `    <div class="left">
-                            <a class="profile">
-                                <div class="profile-picture">
-                                    <img src="./assets/profile-1.jpg">
-                                </div>
-                                <div class="handle">
-                                    <h4>Harsh Doyal</h4>
-                                    <p class="text-muted">
-                                        @HVD
-                                    </p>
-                                </div>
+function loadFeedPage() {
+    const feedContent = `<section id="home" class="page home-page ">
+    <div id="page-container">
+        <div id="content-wrap">
+            <main>
+                <div class="container">
+                    <div class="left">
+                        <a class="profile">
+                            <div class="profile-picture">
+                                <img src="./assets/profile-1.jpg">
+                            </div>
+                            <div class="handle">
+                                <h4>Harsh Doyal</h4>
+                                <p class="text-muted">
+                                    @HVD
+                                </p>
+                            </div>
+                        </a>
+                        <div class="sidebar">
+                            <a class="menu-item active">
+                                <span><i class="uil uil-home"></i></span> <h3>Home</h3>
                             </a>
-                            <div class="sidebar">
-                                <a class="menu-item active">
-                                    <span><i class="uil uil-home"></i></span> <h3>Home</h3>
-                                </a>
-                                <a class="menu-item ">
-                                    <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
-                                </a>
-                            </div>
-                        </div>`;
-    loadPageContent(feedContent);
-}
+                            <a class="menu-item ">
+                                <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
+                            </a>
+                        </div>
+                    </div>
 
-function loadFeedPageMiddle() {
-    const feedContent = `    <div class="middle">
-                            <div class="text-muted">
-                                <p4>Active Friends</p4>
+                    <div class="middle">
+                        <form class="create-post">
+                            <div class="profile-picture">
+                                <img src="./assets/profile-1.jpg">
                             </div>
-                            <div class="stories">
-                                <div class="story">
-                                    <div class="profile-picture">
-                                        <img src="./assets/profile-8.jpg">
+                            <input type="text" placeholder="What's on your mind?" id="create-post">
+                            <input type="submit" value="Post" class="btn btm-primary">
+                        </form>
+
+                        <div class="feeds">
+                            <div class="feed">
+                                <div class="head">
+                                    <div class="user">
+                                        <div class="profile-picture">
+                                            <img src="./assets/profile-10.jpg">
+                                        </div>
+                                        <div class="info">
+                                            <h3>Tom</h3>
+                                            <small>General, 15 MINUTES AGO</small>
+                                        </div>
                                     </div>
-                                    <p class="name">Hanzo</p>
                                 </div>
-                                <div class="story">
-                                    <div class="profile-picture">
-                                        <img src="./assets/profile-9.jpg">
-                                    </div>
-                                    <p class="name">Moon</p>
+                                <div class="photo">
+                                    <img src="./assets/feed-1.jpg">
                                 </div>
-                                <div class="story">
-                                    <div class="profile-picture">
-                                        <img src="./assets/profile-10.jpg">
+                                <div class="action-button">
+                                    <div class="interavtive-buttons">
+                                        <span><i class="uil uil-heart"></i></span>
+                                        <span><i class="uil uil-comment-alt"></i></span>
                                     </div>
-                                    <p class="name">Tom</p>
                                 </div>
-                                <div class="story">
-                                    <div class="profile-picture">
-                                        <img src="./assets/profile-12.jpg">
-                                    </div>
-                                    <p class="name">Jerry</p>
+                                <div class="caption">
+                                    <p><b>Tom</b> GameGon 2024, LA</p>
                                 </div>
-                                <div class="story">
-                                    <div class="profile-picture">
-                                        <img src="./assets/profile-11.jpg">
-                                    </div>
-                                    <p class="name">Ben</p>
-                                </div>
-                                <div class="story">
-                                    <div class="profile-picture">
-                                        <img src="./assets/profile-13.jpg">
-                                    </div>
-                                    <p class="name">Jenny</p>
+                                <div class="comments text-muted">
+                                    View all 10 comments
                                 </div>
                             </div>
-                            <form class="create-post">
-                                <div class="profile-picture">
-                                    <img src="./assets/profile-1.jpg">
-                                </div>
-                                <input type="text" placeholder="What's on your mind?" id="create-post">
-                                <input type="submit" value="Post" class="btn btm-primary">
-                            </form>
-
-                            <div class="feeds">
-                                <div class="feed">
-                                    <div class="head">
-                                        <div class="user">
-                                            <div class="profile-picture">
-                                                <img src="./assets/profile-10.jpg">
-                                            </div>
-                                            <div class="info">
-                                                <h3>Tom</h3>
-                                                <small>General, 15 MINUTES AGO</small>
-                                            </div>
+                            <div class="feed">
+                                <div class="head">
+                                    <div class="user">
+                                        <div class="profile-picture">
+                                            <img src="./assets/profile-9.jpg">
                                         </div>
-                                    </div>
-                                    <div class="photo">
-                                        <img src="./assets/feed-1.jpg">
-                                    </div>
-                                    <div class="action-button">
-                                        <div class="interavtive-buttons">
-                                            <span><i class="uil uil-heart"></i></span>
-                                            <span><i class="uil uil-comment-alt"></i></span>
+                                        <div class="info">
+                                            <h3>Moon</h3>
+                                            <small>Baldur's Gate 3, 2 HOURS AGO</small>
                                         </div>
-                                    </div>
-                                    <div class="caption">
-                                        <p><b>Tom</b> GameGon 2024, LA</p>
-                                    </div>
-                                    <div class="comments text-muted">
-                                        View all 10 comments
                                     </div>
                                 </div>
-                                <div class="feed">
-                                    <div class="head">
-                                        <div class="user">
-                                            <div class="profile-picture">
-                                                <img src="./assets/profile-9.jpg">
-                                            </div>
-                                            <div class="info">
-                                                <h3>Moon</h3>
-                                                <small>Baldur's Gate 3, 2 HOURS AGO</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="photo">
-                                        <img src="./assets/feed-2.jpg">
-                                    </div>
-                                    <div class="action-button">
-                                        <div class="interavtive-buttons">
-                                            <span><i class="uil uil-heart"></i></span>
-                                            <span><i class="uil uil-comment-alt"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="caption">
-                                        <p><b>Moon</b> Beautiful View</p>
-                                    </div>
-                                    <div class="comments text-muted">
-                                        View all 26 comments
+                                <div class="photo">
+                                    <img src="./assets/feed-2.jpg">
+                                </div>
+                                <div class="action-button">
+                                    <div class="interavtive-buttons">
+                                        <span><i class="uil uil-heart"></i></span>
+                                        <span><i class="uil uil-comment-alt"></i></span>
                                     </div>
                                 </div>
-                                <div class="feed">
-                                    <div class="head">
-                                        <div class="user">
-                                            <div class="profile-picture">
-                                                <img src="./assets/profile-8.jpg">
-                                            </div>
-                                            <div class="info">
-                                                <h3>Hanzo</h3>
-                                                <small>Baldur's Gate 3, 5 HOURS AGO</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="photo">
-                                        <img src="./assets/feed-3.jpg">
-                                    </div>
-                                    <div class="action-button">
-                                        <div class="interavtive-buttons">
-                                            <span><i class="uil uil-heart"></i></span>
-                                            <span><i class="uil uil-comment-alt"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="caption">
-                                        <p><b>Hanzo</b> New Character vibes</p>
-                                    </div>
-                                    <div class="comments text-muted">
-                                        View all 5 comments
-                                    </div>
+                                <div class="caption">
+                                    <p><b>Moon</b> Beautiful View</p>
                                 </div>
-                                <div class="feed">
-                                    <div class="head">
-                                        <div class="user">
-                                            <div class="profile-picture">
-                                                <img src="./assets/profile-13.jpg">
-                                            </div>
-                                            <div class="info">
-                                                <h3>Jenny</h3>
-                                                <small>PUBG MOBILE, 15 HOURS AGO</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="photo">
-                                        <img src="./assets/feed-4.jpg">
-                                    </div>
-                                    <div class="action-button">
-                                        <div class="interavtive-buttons">
-                                            <span><i class="uil uil-heart"></i></span>
-                                            <span><i class="uil uil-comment-alt"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="caption">
-                                        <p><b>Jenny</b> Having fun with friends</p>
-                                    </div>
-                                    <div class="comments text-muted">
-                                        View all 250 comments
-                                    </div>
+                                <div class="comments text-muted">
+                                    View all 26 comments
                                 </div>
                             </div>
+                            <div class="feed">
+                                <div class="head">
+                                    <div class="user">
+                                        <div class="profile-picture">
+                                            <img src="./assets/profile-8.jpg">
+                                        </div>
+                                        <div class="info">
+                                            <h3>Hanzo</h3>
+                                            <small>Baldur's Gate 3, 5 HOURS AGO</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="photo">
+                                    <img src="./assets/feed-3.jpg">
+                                </div>
+                                <div class="action-button">
+                                    <div class="interavtive-buttons">
+                                        <span><i class="uil uil-heart"></i></span>
+                                        <span><i class="uil uil-comment-alt"></i></span>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p><b>Hanzo</b> New Character vibes</p>
+                                </div>
+                                <div class="comments text-muted">
+                                    View all 5 comments
+                                </div>
+                            </div>
+                            <div class="feed">
+                                <div class="head">
+                                    <div class="user">
+                                        <div class="profile-picture">
+                                            <img src="./assets/profile-13.jpg">
+                                        </div>
+                                        <div class="info">
+                                            <h3>Jenny</h3>
+                                            <small>PUBG MOBILE, 15 HOURS AGO</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="photo">
+                                    <img src="./assets/feed-4.jpg">
+                                </div>
+                                <div class="action-button">
+                                    <div class="interavtive-buttons">
+                                        <span><i class="uil uil-heart"></i></span>
+                                        <span><i class="uil uil-comment-alt"></i></span>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p><b>Jenny</b> Having fun with friends</p>
+                                </div>
+                                <div class="comments text-muted">
+                                    View all 250 comments
+                                </div>
+                            </div>
+                        </div>
 
-                        </div>`;
-    loadPageContent(feedContent);
-}
+                    </div>
 
-function loadFeedPageRight() {
-    const feedContent = `<div class="text-center my-4">
-                             <h2>Feed Page</h2>
-                             <div class="border-2 border-gray-300 rounded p-4 m-2">
-                             <p><strong>User1</strong>: This is a sample Post!</p>
-                             <p><strong>User2</strong>: Another sample Post here.</p>
-                         </div>
-                         </div>`;
+                </div>
+            </main>
+        </div>
+    </div>
+</section>`;
     loadPageContent(feedContent);
 }
 
