@@ -1,3 +1,9 @@
+//const { createHash } = require('hash.js');
+
+let name;
+let email;
+let password;
+
 document.addEventListener("DOMContentLoaded", () => {
     navigateTo(window.location.hash);
 });
@@ -47,20 +53,20 @@ function loadPageContent(content) {
 }
 
 function loadSignupPage() {
-    const signupContent = `<div id="signup" class="page login-page hidden" style="margin-top: 50px;"> <!-- Adjust margin-top as needed -->
+    const signupContent = `<div id="signup" class="page login-page hidden" style="margin-top: 50px;"> 
                             <div class="login-form">
                                 <div class="text">
                                     SIGNUP
                                 </div>
-                                <form>
+                                <form id="signupForm">
                                     <div class="field">
-                                        <input type="text" placeholder="Name">
+                                        <input id="nameInput" type="text" placeholder="Name">
                                     </div>
                                     <div class="field">
-                                        <input type="text" placeholder="Email">
+                                        <input id="emailInput" type="text" placeholder="Email">
                                     </div>
                                     <div class="field">
-                                        <input type="password" placeholder="Password">
+                                        <input id="passwordInput" type="password" placeholder="Password">
                                     </div>
                                     <button id="signupButton">Sign Up</button>
                                     <div class="link">
@@ -71,6 +77,15 @@ function loadSignupPage() {
                             </div>
                         </div>`;
     loadPageContent(signupContent);
+
+    //event listener to the signup form
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        // Save form data into global variables
+        name = document.getElementById('nameInput').value;
+        email = document.getElementById('emailInput').value;
+        password = document.getElementById('passwordInput').value;
+    });
 }
 
 function loadLoginPage() {
@@ -79,12 +94,12 @@ function loadLoginPage() {
                                 <div class="text">
                                     LOGIN
                                 </div>
-                                <form>
+                                <form id="loginForm">
                                     <div class="field">
-                                        <input type="text" placeholder="Email or Phone">
+                                        <input id="emailInput" type="text" placeholder="Email">
                                     </div>
                                     <div class="field">
-                                        <input type="password" placeholder="Password">
+                                        <input id="passwordInput" type="password" placeholder="Password">
                                     </div>
                                     <button id="loginButton">LOGIN</button>
                                     <div class="link">
@@ -95,6 +110,14 @@ function loadLoginPage() {
                             </div>
                         </div>`;
     loadPageContent(loginContent);
+
+    //event listener to the signup form
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        // Save form data into global variables
+        email = document.getElementById('emailInput').value;
+        password = document.getElementById('passwordInput').value;
+    });
 }
 
 function loadFeedPage() {
