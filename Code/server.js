@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import hash from 'hash.js';
 
 const app = express();
 
@@ -52,6 +53,10 @@ app.post('/M00953762', async (request, response) => {
 
         const database = client.db("cst2120cw2");
         const collection = database.collection("users");
+
+        // Hash the password before storing it in the database
+        const hashedPassword = hash.sha256().update(newUser.password).digest('hex');
+        newUser.password = hashedPassword;
 
         const result = await collection.insertOne(newUser);
         console.log("Data saved to database:", result.insertedCount === 1);

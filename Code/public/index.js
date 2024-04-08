@@ -1,5 +1,3 @@
-//const { createHash } = require('hash.js');
-
 let name;
 let email;
 let password;
@@ -78,14 +76,76 @@ function loadSignupPage() {
                         </div>`;
     loadPageContent(signupContent);
 
-    //event listener to the signup form
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
+    // Add event listener to the signup form submit button
+    document.getElementById('signupButton').addEventListener('click', async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
-        // Save form data into global variables
-        name = document.getElementById('nameInput').value;
-        email = document.getElementById('emailInput').value;
-        password = document.getElementById('passwordInput').value;
+
+        // Get user input values
+        const name = document.getElementById('nameInput').value;
+        const email = document.getElementById('emailInput').value;
+        const password = document.getElementById('passwordInput').value;
+
+        // Validate password complexity
+        if (!validatePassword(password)) {
+            const errorData = { error: 'Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one symbol.' };
+            console.error('Error:', errorData.error);
+            alert(errorData.error);
+            return;
+        }
+
+        // Create user object with the input values
+        const userData = {
+            name,
+            email,
+            password,
+            posts: [],
+            following: [],
+            followers: []
+        };
+
+        try {
+            // Send HTTP POST request to server with user data
+            const response = await fetch('/M00953762', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            // Check if the request was successful
+            if (response.ok) {
+                console.log('User registered successfully!');
+                // Redirect or show a success message as needed
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.error);
+                // Display error message to the user
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error scenario
+        }
     });
+}
+
+// Function to validate password complexity
+function validatePassword(password) {
+    const minLength = 8;
+    const lowercaseRegex = /[a-z]/;
+    const uppercaseRegex = /[A-Z]/;
+    const numberRegex = /[0-9]/;
+    const symbolRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|\-=]/; // Add more symbols if needed
+
+    if (password.length < minLength ||
+        !lowercaseRegex.test(password) ||
+        !uppercaseRegex.test(password) ||
+        !numberRegex.test(password) ||
+        !symbolRegex.test(password)) {
+        return false;
+    }
+
+    return true;
 }
 
 function loadLoginPage() {
