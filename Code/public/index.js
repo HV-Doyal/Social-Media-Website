@@ -1,6 +1,7 @@
 let name;
 let email;
 let password;
+let getEmail;
 
 document.addEventListener("DOMContentLoaded", () => {
     navigateTo(window.location.hash);
@@ -48,6 +49,43 @@ function renderFooter() {
 function loadPageContent(content) {
     const app = document.getElementById("app");
     app.innerHTML = renderHeader() + content + renderFooter();
+}
+
+function loadPost() {
+    const postContent = `<div class="feed">
+        <div class="head">
+            <div class="user">
+                <div class="profile-picture">
+                    <img src="./assets/profile-10.jpg">
+                </div>
+                <div class="info">
+                    <h3>Tom</h3>
+                    <small>General, 15 MINUTES AGO</small>
+                </div>
+            </div>
+        </div>
+        <div class="photo">
+            <img src="./assets/feed-1.jpg">
+        </div>
+        <div class="action-button">
+            <div class="interactive-buttons">
+                <span><i class="uil uil-heart"></i></span>
+                <span><i class="uil uil-comment-alt"></i></span>
+            </div>
+        </div>
+        <div class="caption">
+            <p><b>Tom</b> GameGon 2024, LA</p>
+        </div>
+        <div class="comments text-muted">
+            View all 10 comments
+        </div>
+    </div>`;
+
+    // Get the feeds container
+    const feedsContainer = document.querySelector('.feeds');
+
+    // Append the post content to the feeds container
+    feedsContainer.insertAdjacentHTML('beforeend', postContent);
 }
 
 function loadSignupPage() {
@@ -148,7 +186,7 @@ function validatePassword(password) {
     return true;
 }
 
-function loadLoginPage() {
+async function loadLoginPage() {
     const loginContent = `<div id="login" class="page login-page hidden">
                             <div class="login-form">
                                 <div class="text">
@@ -171,172 +209,94 @@ function loadLoginPage() {
                         </div>`;
     loadPageContent(loginContent);
 
-    //event listener to the signup form
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
+    // Event listener for the login form submission
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
-        // Save form data into global variables
-        email = document.getElementById('emailInput').value;
-        password = document.getElementById('passwordInput').value;
+
+        // Get email and password entered by the user
+        const email = document.getElementById('emailInput').value;
+        const password = document.getElementById('passwordInput').value;
+
+        try {
+            // Send a POST request to the server to authenticate the user
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            // Check if the request was successful
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log(responseData.message); // Display success message
+                loadFeedPage();
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.error); // Display error message
+
+                // Display alert for incorrect password or user not found
+                alert(errorData.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error scenario
+        }
     });
 }
 
+
 function loadFeedPage() {
-    const feedContent = `<section id="home" class="page home-page ">
-    <div id="page-container">
-        <div id="content-wrap">
-            <main>
-                <div class="container">
-                    <div class="left">
-                        <a class="profile">
-                            <div class="profile-picture">
-                                <img src="./assets/profile-1.jpg">
-                            </div>
-                            <div class="handle">
-                                <h4>${name}</h4>
-                            </div>
-                        </a>
-                        <div class="sidebar">
-                            <a class="menu-item active">
-                                <span><i class="uil uil-home"></i></span> <h3>Home</h3>
+    const feedContent = `<section id="home" class="page home-page">
+        <div id="page-container">
+            <div id="content-wrap">
+                <main>
+                    <div class="container">
+                        <div class="left">
+                            <a class="profile">
+                                <div class="profile-picture">
+                                    <img src="./assets/profile-1.jpg">
+                                </div>
+                                <div class="handle">
+                                    <h4>${name}</h4>
+                                </div>
                             </a>
-                            <a class="menu-item ">
-                                <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="middle">
-                        <form class="create-post">
-                            <div class="profile-picture">
-                                <img src="./assets/profile-1.jpg">
-                            </div>
-                            <input type="text" placeholder="What's on your mind?" id="create-post">
-                            <input type="submit" value="Post" class="btn btm-primary">
-                        </form>
-
-                        <div class="feeds">
-                            <div class="feed">
-                                <div class="head">
-                                    <div class="user">
-                                        <div class="profile-picture">
-                                            <img src="./assets/profile-10.jpg">
-                                        </div>
-                                        <div class="info">
-                                            <h3>Tom</h3>
-                                            <small>General, 15 MINUTES AGO</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="photo">
-                                    <img src="./assets/feed-1.jpg">
-                                </div>
-                                <div class="action-button">
-                                    <div class="interavtive-buttons">
-                                        <span><i class="uil uil-heart"></i></span>
-                                        <span><i class="uil uil-comment-alt"></i></span>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <p><b>Tom</b> GameGon 2024, LA</p>
-                                </div>
-                                <div class="comments text-muted">
-                                    View all 10 comments
-                                </div>
-                            </div>
-                            <div class="feed">
-                                <div class="head">
-                                    <div class="user">
-                                        <div class="profile-picture">
-                                            <img src="./assets/profile-9.jpg">
-                                        </div>
-                                        <div class="info">
-                                            <h3>Moon</h3>
-                                            <small>Baldur's Gate 3, 2 HOURS AGO</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="photo">
-                                    <img src="./assets/feed-2.jpg">
-                                </div>
-                                <div class="action-button">
-                                    <div class="interavtive-buttons">
-                                        <span><i class="uil uil-heart"></i></span>
-                                        <span><i class="uil uil-comment-alt"></i></span>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <p><b>Moon</b> Beautiful View</p>
-                                </div>
-                                <div class="comments text-muted">
-                                    View all 26 comments
-                                </div>
-                            </div>
-                            <div class="feed">
-                                <div class="head">
-                                    <div class="user">
-                                        <div class="profile-picture">
-                                            <img src="./assets/profile-8.jpg">
-                                        </div>
-                                        <div class="info">
-                                            <h3>Hanzo</h3>
-                                            <small>Baldur's Gate 3, 5 HOURS AGO</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="photo">
-                                    <img src="./assets/feed-3.jpg">
-                                </div>
-                                <div class="action-button">
-                                    <div class="interavtive-buttons">
-                                        <span><i class="uil uil-heart"></i></span>
-                                        <span><i class="uil uil-comment-alt"></i></span>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <p><b>Hanzo</b> New Character vibes</p>
-                                </div>
-                                <div class="comments text-muted">
-                                    View all 5 comments
-                                </div>
-                            </div>
-                            <div class="feed">
-                                <div class="head">
-                                    <div class="user">
-                                        <div class="profile-picture">
-                                            <img src="./assets/profile-13.jpg">
-                                        </div>
-                                        <div class="info">
-                                            <h3>Jenny</h3>
-                                            <small>PUBG MOBILE, 15 HOURS AGO</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="photo">
-                                    <img src="./assets/feed-4.jpg">
-                                </div>
-                                <div class="action-button">
-                                    <div class="interavtive-buttons">
-                                        <span><i class="uil uil-heart"></i></span>
-                                        <span><i class="uil uil-comment-alt"></i></span>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <p><b>Jenny</b> Having fun with friends</p>
-                                </div>
-                                <div class="comments text-muted">
-                                    View all 250 comments
-                                </div>
+                            <div class="sidebar">
+                                <a class="menu-item active">
+                                    <span><i class="uil uil-home"></i></span> <h3>Home</h3>
+                                </a>
+                                <a class="menu-item">
+                                    <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
+                                </a>
                             </div>
                         </div>
-
+                        <div class="middle">
+                            <form class="create-post">
+                                <div class="profile-picture">
+                                    <img src="./assets/profile-1.jpg">
+                                </div>
+                                <input type="text" placeholder="What's on your mind?" id="create-post">
+                                <input type="submit" value="Post" class="btn btm-primary">
+                            </form>
+                            <div class="feeds">
+                                <!-- Posts will be loaded dynamically here -->
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
-    </div>
-</section>`;
+    </section>`;
+
     loadPageContent(feedContent);
+    // Load posts into the feeds section
+    loadPost();
+    loadPost();
+    loadPost();
+    loadPost();
+    loadPost();
+    loadPost();
 }
 
 function loadProfilePage() {

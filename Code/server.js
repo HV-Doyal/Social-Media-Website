@@ -87,6 +87,48 @@ app.get('/M00953762', async (request, response) => {
     }
 });
 
+//POST route to handle login requests
+app.post('/login', async (request, response) => {
+    const { email, password } = request.body;
+
+    try {
+        // Connect to the database
+        await connectDB();
+
+        // Access the users collection
+        const database = client.db("cst2120cw2");
+        const collection = database.collection("users");
+
+        // Find the user with the provided email
+        const user = await collection.findOne({ email });
+
+        if (user) {
+            // Hash the provided password for comparison
+            const hashedPassword = hash.sha256().update(password).digest('hex');
+
+            // Compare hashed passwords
+            if (hashedPassword === user.password) {
+                // Passwords match, login successful
+                response.json({ message: 'Login successful!' });
+            } else {
+                // Passwords don't match, respond with error
+                response.status(401).json({ error: 'Invalid email or password.' });
+            }
+        } else {
+            // User not found, respond with error
+            response.status(404).json({ error: 'User not found.' });
+        }
+    } catch (error) {
+        // Handle server errors
+        console.error('Error:', error);
+        response.status(500).json({ error: 'Internal server error.' });
+    } finally {
+        // Close the database connection
+        await client.close();
+    }
+});
+
+
 app.listen(8080, () => {
     console.log("Listening on port 8080");
 });
