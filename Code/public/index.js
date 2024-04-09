@@ -114,14 +114,20 @@ function loadSignupPage() {
                         </div>`;
     loadPageContent(signupContent);
 
-    // Add event listener to the signup form submit button
+    //Event listener to the signup form submit button
     document.getElementById('signupButton').addEventListener('click', async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
 
         // Get user input values
-         name = document.getElementById('nameInput').value;
+        const name = document.getElementById('nameInput').value;
         const email = document.getElementById('emailInput').value;
         const password = document.getElementById('passwordInput').value;
+
+        // Check if any field is empty
+        if (!name || !email || !password) {
+            alert('Please fill in all fields.');
+            return;
+        }
 
         // Validate password complexity
         if (!validatePassword(password)) {
@@ -143,7 +149,7 @@ function loadSignupPage() {
 
         try {
             // Send HTTP POST request to server with user data
-            const response = await fetch('/M00953762', {
+            const response = await fetch('/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -162,7 +168,6 @@ function loadSignupPage() {
             }
         } catch (error) {
             console.error('Error:', error);
-            // Handle error scenario
         }
     });
 }
@@ -245,7 +250,6 @@ async function loadLoginPage() {
         }
     });
 }
-
 
 function loadFeedPage() {
     const feedContent = `<section id="home" class="page home-page">
