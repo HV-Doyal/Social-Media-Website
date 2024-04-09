@@ -1,7 +1,10 @@
-let name;
-let email;
-let password;
-let getEmail;
+let userData = {
+    name: '',
+    email: '',
+    posts: [],
+    following: [],
+    followers: []
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     navigateTo(window.location.hash);
@@ -56,7 +59,7 @@ function loadPost() {
         <div class="head">
             <div class="user">
                 <div class="profile-picture">
-                    <img src="./assets/profile-10.jpg">
+                    <img src="./assets/profile-10.jpg" alt="picture">
                 </div>
                 <div class="info">
                     <h3>Tom</h3>
@@ -65,7 +68,7 @@ function loadPost() {
             </div>
         </div>
         <div class="photo">
-            <img src="./assets/feed-1.jpg">
+            <img src="./assets/feed-1.jpg" alt="picture">
         </div>
         <div class="action-button">
             <div class="interactive-buttons">
@@ -180,18 +183,16 @@ function validatePassword(password) {
     const numberRegex = /[0-9]/;
     const symbolRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\|\-=]/; // Add more symbols if needed
 
-    if (password.length < minLength ||
+    return !(password.length < minLength ||
         !lowercaseRegex.test(password) ||
         !uppercaseRegex.test(password) ||
         !numberRegex.test(password) ||
-        !symbolRegex.test(password)) {
-        return false;
-    }
+        !symbolRegex.test(password));
 
-    return true;
+    
 }
 
-async function loadLoginPage() {
+function loadLoginPage() {
     const loginContent = `<div id="login" class="page login-page hidden">
                             <div class="login-form">
                                 <div class="text">
@@ -218,12 +219,10 @@ async function loadLoginPage() {
     document.getElementById('loginForm').addEventListener('submit', async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
 
-        // Get email and password entered by the user
         const email = document.getElementById('emailInput').value;
         const password = document.getElementById('passwordInput').value;
 
         try {
-            // Send a POST request to the server to authenticate the user
             const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
@@ -232,25 +231,38 @@ async function loadLoginPage() {
                 body: JSON.stringify({ email, password })
             });
 
-            // Check if the request was successful
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData.message); // Display success message
+                handleLoginResponse(responseData);
                 loadFeedPage();
             } else {
                 const errorData = await response.json();
                 console.error('Error:', errorData.error); // Display error message
-
-                // Display alert for incorrect password or user not found
                 alert(errorData.error);
             }
         } catch (error) {
             console.error('Error:', error);
-            // Handle error scenario
         }
     });
 }
 
+function handleLoginResponse(responseData) {
+    if (responseData.userData) {
+        // Directly updates the global userData variable
+        userData.name = responseData.userData.name || '';
+        userData.email = responseData.userData.email || '';
+        userData.password = ''; //empty for security reasons
+        userData.posts = responseData.userData.posts || [];
+        userData.following = responseData.userData.following || [];
+        userData.followers = responseData.userData.followers || [];
+
+        // Log the updated userData to console
+        console.log(userData);
+    } else {
+        console.error('Login failed or no user data provided.');
+    }
+}
 function loadFeedPage() {
     const feedContent = `<section id="home" class="page home-page">
         <div id="page-container">
@@ -260,10 +272,10 @@ function loadFeedPage() {
                         <div class="left">
                             <a class="profile">
                                 <div class="profile-picture">
-                                    <img src="./assets/profile-1.jpg">
+                                    <img src="./assets/profile-1.jpg" alt="picture">
                                 </div>
                                 <div class="handle">
-                                    <h4>${name}</h4>
+                                    <h4>${userData.name}</h4>
                                 </div>
                             </a>
                             <div class="sidebar">
@@ -278,7 +290,7 @@ function loadFeedPage() {
                         <div class="middle">
                             <form class="create-post">
                                 <div class="profile-picture">
-                                    <img src="./assets/profile-1.jpg">
+                                    <img src="./assets/profile-1.jpg" alt="picture">
                                 </div>
                                 <input type="text" placeholder="What's on your mind?" id="create-post">
                                 <input type="submit" value="Post" class="btn btm-primary">

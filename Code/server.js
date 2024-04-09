@@ -107,7 +107,8 @@ app.post('/login', async (request, response) => {
             const hashedPassword = hash.sha256().update(password).digest('hex');
 
             if (hashedPassword === user.password) {
-                response.json({ message: 'Login successful!' });
+                const { password, ...userDataWithoutPassword } = user;
+                response.json({ message: 'Login successful!', userData: userDataWithoutPassword });
             } else {
                 response.status(401).json({ error: 'Invalid email or password.' });
             }
