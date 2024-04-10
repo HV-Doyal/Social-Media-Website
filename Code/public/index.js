@@ -264,37 +264,6 @@ function handleLoginResponse(responseData) {
     }
 }
 
-function uploadFile(){
-    console.log("Change pfp button clicked")
-    //Clear server response
-    serverResponse.innerHTML = "";
-
-    //Get file that we want to upload
-    let fileArray = document.getElementById("FileInput").files;
-    if(fileArray.length !== 1){
-        serverResponse.innerHTML = "Please select file to upload.";
-        return;
-    }
-
-    //Put file inside FormData object
-    const formData = new FormData();
-    formData.append('myFile', fileArray[0]);
-
-    //Set up HTTP Request
-    let httpReq = new XMLHttpRequest();
-    httpReq.onload = () => {
-        let response = JSON.parse(httpReq.responseText);
-        if("error" in response)//Error from server
-            serverResponse.innerHTML = response.error;
-        else
-            serverResponse.innerHTML = "File uploaded successfully";
-    };
-
-    //Send off message to upload file
-    httpReq.open('POST', '/upload');
-    httpReq.send(formData);
-}
-
 function loadFeedPage() {
     const feedContent = `<section id="home" class="page home-page">
         <div id="page-container">
