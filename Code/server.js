@@ -3,8 +3,22 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import hash from 'hash.js';
+import expressSession from 'express-session';
 
 const app = express();
+app.use(bodyParser.json());
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(process.cwd(), 'public')));
+
+app.use(
+    expressSession({
+        secret: 'cst2120cw2',
+        cookie: { maxAge: 60000 },
+        resave: false,
+        saveUninitialized: true
+    })
+);
 
 const password = "sJGmRWlzEelHY889";
 const userName = "hvd";
@@ -23,8 +37,6 @@ const client = new MongoClient(connectionURI, {
     }
 });
 
-app.use(express.static('public'));
-app.use(bodyParser.json());
 
 async function connectDB() {
     try {

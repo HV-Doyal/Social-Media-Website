@@ -263,6 +263,11 @@ function handleLoginResponse(responseData) {
         console.error('Login failed or no user data provided.');
     }
 }
+
+function changePfp(){
+    console.log("Change pfp button clicked")
+}
+
 function loadFeedPage() {
     const feedContent = `<section id="home" class="page home-page">
         <div id="page-container">
@@ -286,6 +291,7 @@ function loadFeedPage() {
                                     <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
                                 </a>
                             </div>
+                            <button id="createPfp" class="btn btm-primary " onclick="changePfp()">Change Profile Picture</button>
                         </div>
                         <div class="middle">
                             <form class="create-post">
