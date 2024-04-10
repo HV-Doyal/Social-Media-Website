@@ -92,7 +92,7 @@ function loadPost() {
 }
 
 function loadSignupPage() {
-    const signupContent = `<div id="signup" class="page login-page hidden" style="margin-top: 50px;"> 
+    const signupContent = `<div id="signup" class="page login-page " style="margin-top: 50px;"> 
                             <div class="login-form">
                                 <div class="text">
                                     SIGNUP
@@ -193,7 +193,7 @@ function validatePassword(password) {
 }
 
 function loadLoginPage() {
-    const loginContent = `<div id="login" class="page login-page hidden">
+    const loginContent = `<div id="login" class="page login-page ">
                             <div class="login-form">
                                 <div class="text">
                                     LOGIN
@@ -264,8 +264,35 @@ function handleLoginResponse(responseData) {
     }
 }
 
-function changePfp(){
+function uploadFile(){
     console.log("Change pfp button clicked")
+    //Clear server response
+    serverResponse.innerHTML = "";
+
+    //Get file that we want to upload
+    let fileArray = document.getElementById("FileInput").files;
+    if(fileArray.length !== 1){
+        serverResponse.innerHTML = "Please select file to upload.";
+        return;
+    }
+
+    //Put file inside FormData object
+    const formData = new FormData();
+    formData.append('myFile', fileArray[0]);
+
+    //Set up HTTP Request
+    let httpReq = new XMLHttpRequest();
+    httpReq.onload = () => {
+        let response = JSON.parse(httpReq.responseText);
+        if("error" in response)//Error from server
+            serverResponse.innerHTML = response.error;
+        else
+            serverResponse.innerHTML = "File uploaded successfully";
+    };
+
+    //Send off message to upload file
+    httpReq.open('POST', '/upload');
+    httpReq.send(formData);
 }
 
 function loadFeedPage() {
@@ -291,7 +318,6 @@ function loadFeedPage() {
                                     <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
                                 </a>
                             </div>
-                            <button id="createPfp" class="btn btm-primary " onclick="changePfp()">Change Profile Picture</button>
                         </div>
                         <div class="middle">
                             <form class="create-post">
@@ -319,16 +345,4 @@ function loadFeedPage() {
     loadPost();
     loadPost();
     loadPost();
-}
-
-function loadProfilePage() {
-    const profileContent = `<div class="text-center my-4">
-                                <h2>Profile Page</h2>
-                                <div class="border-2 border-gray-300 rounded p-4 m-2">
-                                <p><strong>Name:</strong> John Doe</p>
-                                <p><strong>Username:</strong> johndoe123</p>
-                                <p><strong>Bio:</strong> This is a sample bio.</p>
-                            </div>
-                            </div>`;
-    loadPageContent(profileContent);
 }
