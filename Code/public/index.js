@@ -1,10 +1,12 @@
 let userData = {
     name: '',
     email: '',
+    profilePic:'',
     posts: [],
     following: [],
     followers: []
 };
+
 
 document.addEventListener("DOMContentLoaded", () => {
     navigateTo(window.location.hash);
@@ -273,7 +275,7 @@ function loadFeedPage() {
                         <div class="left">
                             <a class="profile">
                                 <div class="profile-picture">
-                                    <img src="./assets/profile-1.jpg" alt="picture">
+                                    <img src="./assets/defaultpfp.jpg" alt="Profile picture">
                                 </div>
                                 <div class="handle">
                                     <h4>${userData.name}</h4>
@@ -287,6 +289,9 @@ function loadFeedPage() {
                                     <span><i class="uil uil-message"></i></span> <h3>Messages</h3>
                                 </a>
                             </div>
+                                <div>
+                                    <button class="btn btm-primary">Change Profile Picture</button>
+                                </div>
                         </div>
                         <div class="middle">
                             <form class="create-post">
