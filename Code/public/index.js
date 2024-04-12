@@ -1,3 +1,4 @@
+//Global Variable to store userdata from DB
 let userData = {
     name: '',
     email: '',

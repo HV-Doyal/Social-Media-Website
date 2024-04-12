@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "661955e2c169009895767e14"
+  },
+  "content": "dataOfTestOrPic",
+  "likes": [
+    {
+      "id": "user1oid"
+    },
+    {
+      "id": "user2oid"
+    }
+  ],
+  "comments": [
+    {
+      "id": "user1oid",
+      "comment": "comment1"
+    },
+    {
+      "id": "user1oid",
+      "comment": "comment2"
+    }
+  ]
+}]

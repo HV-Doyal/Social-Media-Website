@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "66145cb82151c8c76e7a72d4"
+  },
+  "name": "Harsh Doyal",
+  "email": "hdoyal@gmail.com",
+  "password": "3fbfeb0ee307127bbd4ef7da33f7b57a9ff3c7357da182c5bfccc2a4f599c6f9",
+  "posts": [],
+  "following": [],
+  "followers": []
+},
+{
+  "_id": {
+    "$oid": "6615967b145746845e591c49"
+  },
+  "name": "The Admin",
+  "email": "admin@mnkhub.com",
+  "password": "3fbfeb0ee307127bbd4ef7da33f7b57a9ff3c7357da182c5bfccc2a4f599c6f9",
+  "posts": [],
+  "following": [],
+  "followers": []
+},
+{
+  "_id": {
+    "$oid": "661943ef8158b364f8e4e45e"
+  },
+  "name": "Video Demonstration",
+  "email": "vd1234@gmail.com",
+  "password": "3fbfeb0ee307127bbd4ef7da33f7b57a9ff3c7357da182c5bfccc2a4f599c6f9",
+  "posts": [],
+  "following": [],
+  "followers": []
+}]
